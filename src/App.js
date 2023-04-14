@@ -1,22 +1,27 @@
 import './App.css';
-import react, { useState, useEffect } from 'react';
-import PokemonList from './PokemonList';
-import axios from 'axios'
+import { Suspense, lazy } from 'react';
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom"
+import Navbar from './components/Navbar';
+import Loader from './components/Loader';
 
+const Search = lazy(() => import("./content/Search"));
+const Pokemon = lazy(() => import("./content/Pokemon"));
+const Compare = lazy(() => import("./content/Compare"));
 
 function App() {
-  const [pokemon, setPokemon] = useState([])
-
-  useEffect(() => {
-    axios.get("https://pokeapi.co/api/v2/pokemon/?limit=100").then(res => {
-      setPokemon(res.data.results.map(p => p.name))
-      console.log(res.data.results)
-    })
-  }, [])
-  
-
   return (
-    <PokemonList pokemon={pokemon}/>
+    <BrowserRouter>
+      <Suspense fallback={<Loader />}>
+        <Navbar />
+        <Routes>
+          <Route path="/search" element={<Search />}/>
+          <Route path="/pokemon" element={<Pokemon />}/>
+          <Route path="/compare" element={<Compare />}/>
+          <Route path="*" element={<Navigate to="/search" />}/>
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
+    
   );
 }
 
