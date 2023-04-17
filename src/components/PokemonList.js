@@ -4,16 +4,15 @@ import { useNavigate } from 'react-router-dom';
 import { getPokemonData } from '../app/reducers/getPokemonData';
 
 export default function PokemonList({ pokemons }) {
-  // const searchPokemon = useSelector((state) =>  state.pokemon.searchPokemon)
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
   return (
     <div>
       {pokemons?.map((p) => {
-        return <div id={p.id} key={p.id}>
+        return <div id={p.id} key={p.id} onClick={() => {navigate(`/pokemon/${p.id}`)}}>
           <span>{p.id}</span>
-          <img src={p.sprite} alt="NO IMAGE" height="100" />
+          <img src={p.sprite} alt="NO IMAGE" loading="lazy" height="100" />
           {p.types.map((type) => {
             return <span key={type}>{type} </span>
           })}

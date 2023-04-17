@@ -15,7 +15,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path="/search" element={<Search />}/>
-          <Route path="/pokemon" element={<Pokemon />}/>
+          <Route path="/pokemon/:id" element={<Pokemon />}/>
           <Route path="/compare" element={<Compare />}/>
           <Route path="*" element={<Navigate to="/search" />}/>
         </Routes>

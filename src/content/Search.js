@@ -1,4 +1,4 @@
-import {useState, useEffect} from 'react'
+import React, {useState, useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsUrl } from '../app/reducers/getPokemonsUrl';
 import { getPokemonsData } from '../app/reducers/getPokemonsData';
@@ -15,20 +15,22 @@ export default function Search() {
     useEffect(() => {
         if (pokemonUrls) {
             const pokemonUrlsCopy = [...pokemonUrls];
-            dispatch(getPokemonsData(pokemonUrlsCopy))   
+            const reducedPokemonUrl = pokemonUrlsCopy
+                .sort((a, b) => a - b)
+                .slice(0, 200);
+            dispatch(getPokemonsData(reducedPokemonUrl))   
         }
     }, [pokemonUrls, dispatch])
 
-    useEffect(() => {
-        if (searchPokemon) {
-            console.log(searchPokemon)
-        }
-    }, [searchPokemon, dispatch])
+
 
   return (
     <>
         <div className='search'>
             <h1>Search</h1>
+            <input
+                type="text"
+            />
             <PokemonList pokemons={searchPokemon} />
         </div>
     </>    

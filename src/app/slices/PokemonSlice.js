@@ -1,21 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { getPokemonsUrl } from "../reducers/getPokemonsUrl";
 import { getPokemonsData } from "../reducers/getPokemonsData";
-import { getPokemonData } from "../reducers/getPokemonData";
 
 
 const initialState = {
     pokemonUrls: undefined,
     searchPokemon: undefined,
-    currentPokemon: undefined,
+    selectedPokemon: undefined,
     compareQueue: [],
 };
 
 export const PokemonSlice = createSlice({
     name: "pokemon",
     initialState,
-    // reducers: {
-    // },
+    reducers: {
+        setSelectedPokemon: (state, action) => {
+            state.selectedPokemon = action.payload
+        }
+    },
 
     extraReducers: (builder) => {
         builder.addCase(getPokemonsUrl.fulfilled, (state, action) => {
@@ -23,13 +25,10 @@ export const PokemonSlice = createSlice({
         });
         builder.addCase(getPokemonsData.fulfilled, (state, action) => {
             state.searchPokemon = action.payload;
-        })
-        builder.addCase(getPokemonData.fulfilled, (state, action) => {
-            state.currentPokemon = action.payload;
-            console.log(state.currentPokemon)
-        })
+            console.log(state.searchPokemon)
+        });
     }
 })
 
-// export const { setCurrentPokemon } = PokemonSlice.actions
+export const { setSelectedPokemon } = PokemonSlice.actions
 
