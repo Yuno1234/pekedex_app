@@ -31,7 +31,6 @@ export default function Pokemon() {
 
   useEffect(() => {
     getPokemonData()
-    console.log(params, selectedPokemon)
   }, [params.id, getPokemonData])
 
 
