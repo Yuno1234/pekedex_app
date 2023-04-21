@@ -14,7 +14,6 @@ export default function Pokemon() {
   const getPokemonData = useCallback(
     async() => {
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
-
       dispatch(
         setSelectedPokemon({
           id: params.id,

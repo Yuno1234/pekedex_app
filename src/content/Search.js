@@ -1,23 +1,14 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsUrl } from '../app/reducers/getPokemonsUrl';
 import { getPokemonsData } from '../app/reducers/getPokemonsData';
 import PokemonList from '../components/PokemonList';
+import { debounce } from '../utils/debounce';
 
 export default function Search() {
     const { pokemonUrls, searchPokemon }  = useSelector((state) => state.pokemon)
     const handleChange = debounce((input) => filterPokemon(input), 200)
     const dispatch = useDispatch()
-  
-    function debounce(fn, timeout) {
-        let timer;
-        return (...args) => {
-          clearTimeout(timer);
-          timer = setTimeout(() => {
-            fn.apply(this, args);
-          }, timeout);
-        };
-      }
 
     function reducePokemon() {
         const pokemonUrlsCopy = [...pokemonUrls];

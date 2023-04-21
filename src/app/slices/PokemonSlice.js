@@ -4,9 +4,9 @@ import { getPokemonsData } from "../reducers/getPokemonsData";
 
 
 const initialState = {
-    pokemonUrls: undefined,
-    searchPokemon: undefined,
-    selectedPokemon: undefined,
+    pokemonUrls: null,
+    searchPokemon: null,
+    selectedPokemon: null,
     compareQueue: [],
 };
 
@@ -25,7 +25,6 @@ export const PokemonSlice = createSlice({
         });
         builder.addCase(getPokemonsData.fulfilled, (state, action) => {
             state.searchPokemon = action.payload;
-            console.log(state.searchPokemon)
         });
     }
 })
