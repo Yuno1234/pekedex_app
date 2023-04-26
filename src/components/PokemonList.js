@@ -1,7 +1,7 @@
 import React from 'react'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import{ setSelectedPokemon } from "../app/slices/PokemonSlice";
+import { setPokemonData } from '../app/reducers/setPokemonData';
 
 export default function PokemonList({ pokemons }) {
   const dispatch = useDispatch()
@@ -10,13 +10,14 @@ export default function PokemonList({ pokemons }) {
   return (
     <div>
       {pokemons?.map((p) => {
-        return <div id={p.id} key={p.id} onClick={() => {navigate(`/pokemon/${p.id}`); dispatch(setSelectedPokemon(null))}}>
+        return <div id={p.id} key={p.id} >
           <span>{p.id}</span>
-          <img src={p.sprite} alt="NO IMAGE" loading="lazy" height="100" />
+          <img src={p.sprite} onClick={() => {navigate(`/pokemon/${p.id}`); dispatch(setPokemonData({id: null, stateName: "selected"}))}} alt="NO IMAGE" loading="lazy" height="100" />
           {p.types.map((type) => {
             return <span key={type}>{type} </span>
           })}
           <h3>{p.name}</h3>
+          <button onClick={() => {dispatch(setPokemonData({id: p.id, stateName: "compare"}))}}>Add to Compare</button>
         </div>
       })}
     </div>

@@ -1,9 +1,8 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useEffect} from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import{ setSelectedPokemon } from "../app/slices/PokemonSlice";
 import Loader from '../components/Loader';
+import { setPokemonData } from '../app/reducers/setPokemonData';
 
 export default function Pokemon() {
   const params = useParams();
@@ -11,28 +10,9 @@ export default function Pokemon() {
   const selectedPokemon = useSelector(({pokemon: {selectedPokemon}}) =>  selectedPokemon)
   const navigate = useNavigate()
 
-  const getPokemonData = useCallback(
-    async() => {
-      const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
-      dispatch(
-        setSelectedPokemon({
-          id: params.id,
-          name: data.name,
-          types: data.types.map(type => type.type.name),
-          sprite: data.sprites["other"]["official-artwork"]["front_default"],
-          height: data.height,
-          weight: data.weight,
-          stats: data.stats.map(stat => stat.base_stat),
-          abilities: data.abilities.map(ability => ability.ability.name)
-        })
-      );
-    }, [params.id, dispatch]);
-
   useEffect(() => {
-    getPokemonData()
-  }, [params.id, getPokemonData])
-
-
+    dispatch(setPokemonData({id: params.id, stateName: "selected"}))
+  }, [params.id, dispatch])
 
   return (
     <>
