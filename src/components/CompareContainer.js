@@ -1,5 +1,6 @@
 import React from 'react'
 import Loader from './Loader'
+import { pokemonTypes } from '../utils/pokemonTypes';
 
 export default function CompareContainer({pokemon}) {
   return (
@@ -9,7 +10,7 @@ export default function CompareContainer({pokemon}) {
                 <h1>{pokemon.name}</h1>
                 <p>
                     types: {pokemon.types.map((type) => {
-                        return <span key={type}>{type} </span>
+                        return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
                     })}<br/>
                     height: {pokemon.height}<br/>
                     weight: {pokemon.weight}

@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../components/Loader';
 import { setPokemonData } from '../app/reducers/setPokemonData';
+import { pokemonTypes } from '../utils/pokemonTypes';
 
 export default function Pokemon() {
   const params = useParams();
@@ -23,8 +24,8 @@ export default function Pokemon() {
           <h1>{selectedPokemon.name}</h1>
           <p>
             types: {selectedPokemon.types.map((type) => {
-                return <span key={type}>{type} </span>
-              })}<br/>
+                return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
+            })}<br/>
             height: {selectedPokemon.height}<br/>
             weight: {selectedPokemon.weight}
           </p>

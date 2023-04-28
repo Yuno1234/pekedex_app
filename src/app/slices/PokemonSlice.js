@@ -3,16 +3,6 @@ import { getPokemonsUrl } from "../reducers/getPokemonsUrl";
 import { getPokemonsData } from "../reducers/getPokemonsData";
 import { setPokemonData } from "../reducers/setPokemonData";
 
-// {
-//     id: 1,
-//     name: "bulbasaur",
-//     types: ["grass", "poison"],
-//     sprite: null,
-//     height: 30,
-//     weight: 25,
-//     stats: [50, 23, 45, 32, 12, 43],
-//     abilities: null
-// }
 
 const initialState = {
     pokemonUrls: null,
