@@ -15,6 +15,11 @@ export const PokemonSlice = createSlice({
     name: "pokemon",
     initialState,
     reducers: {
+        addPokemonDetail: (state, action) => {
+            const selectedPokemon = {...state.selectedPokemon, ...action.payload}
+            console.log(selectedPokemon)
+            state.selectedPokemon = selectedPokemon
+        }
     },
 
     extraReducers: (builder) => {
@@ -47,5 +52,5 @@ export const PokemonSlice = createSlice({
     }
 })
 
-export const {} = PokemonSlice.actions
+export const {addPokemonDetail} = PokemonSlice.actions
 

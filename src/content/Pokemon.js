@@ -1,9 +1,12 @@
-import React, { useEffect} from 'react'
+import React, { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../components/Loader';
 import { setPokemonData } from '../app/reducers/setPokemonData';
 import { pokemonTypes } from '../utils/pokemonTypes';
+import axios from 'axios';
+import { addPokemonDetail } from '../app/slices/PokemonSlice';
+
 
 export default function Pokemon() {
   const params = useParams();
@@ -11,8 +14,73 @@ export default function Pokemon() {
   const selectedPokemon = useSelector(({pokemon: {selectedPokemon}}) =>  selectedPokemon)
   const navigate = useNavigate()
 
+  const getRecursiveEvolution = useCallback(
+    (evolutionChain, level, evolutionData) => {
+      if (!evolutionChain.evolves_to.length) {
+        return evolutionData.push({
+          pokemon: {
+            ...evolutionChain.species,
+            url: evolutionChain.species.url.replace(
+              "pokemon-species",
+              "pokemon"
+            ),
+          },
+          level,
+        });
+      }
+      evolutionData.push({
+        pokemon: {
+          ...evolutionChain.species,
+          url: evolutionChain.species.url.replace("pokemon-species", "pokemon"),
+        },
+        level,
+      });
+      return getRecursiveEvolution(
+        evolutionChain.evolves_to[0],
+        level + 1,
+        evolutionData
+      );
+    },
+    []
+  );
+
+  const getEvolutionData = useCallback(
+    (evolutionChain) => {
+      const evolutionData = [];
+      getRecursiveEvolution(evolutionChain, 1, evolutionData);
+      return evolutionData;
+    },
+    [getRecursiveEvolution]
+  );
+
+  const getPokemonDetail = useCallback(
+    async() => {
+      const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
+
+      const abilities = data.abilities.map(({ ability }) => ability.name);
+      const moves = data.moves.map(({ move }) => move.name);
+
+      const {
+        data: {
+          evolution_chain: { url: evolutionURL },
+        },
+      } = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${params.id}`);
+      const { data: evolutionData } = await axios.get(evolutionURL);
+      const evolution = getEvolutionData(evolutionData.chain);
+
+      let evolutionLevel;
+      evolutionLevel = evolution.find(({ pokemon }) => pokemon.name === data.name).level;
+
+      return { abilities, moves, evolutionLevel, evolution };
+    },
+    [params.id, getEvolutionData]
+  )
+
   useEffect(() => {
     dispatch(setPokemonData({id: params.id, stateName: "selected"}))
+    getPokemonDetail().then((data) => {
+      dispatch(addPokemonDetail(data))
+    })
   }, [params.id, dispatch])
 
   return (
@@ -38,6 +106,10 @@ export default function Pokemon() {
             SD: {selectedPokemon.stats[4]}<br/>
             SP: {selectedPokemon.stats[5]}<br/>
           </p>
+          <div>{selectedPokemon.evolutionLevel}</div>
+          {selectedPokemon.moves && selectedPokemon.moves.map((move) => {
+            return <div key={move}>{move}</div>
+          })}
         </>
       ) : (
         <Loader />

@@ -19,7 +19,6 @@ export const setPokemonData = createAsyncThunk(
                 stats: generalRes.data.stats.map(stat => stat.base_stat),
                 abilities: generalRes.data.abilities.map(ability => ability.ability.name)
             }
-            
             return {data: pokemonData, stateName: args.stateName}
         } catch (err) {
             console.log(err)
