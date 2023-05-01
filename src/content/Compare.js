@@ -6,10 +6,6 @@ import { current } from "@reduxjs/toolkit";
 export default function Compare() {
   const compareQueue = useSelector(({pokemon: {compareQueue}}) =>  compareQueue)
 
-  useEffect(() => {
-    console.log(compareQueue)
-  }, [])
-
   return (
     <>
       <h1>Compare</h1>

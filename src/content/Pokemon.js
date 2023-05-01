@@ -2,16 +2,16 @@ import React, { useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../components/Loader';
-import { setPokemonData } from '../app/reducers/setPokemonData';
+import { getPokemonData } from '../utils/getPokemonData';
 import { pokemonTypes } from '../utils/pokemonTypes';
 import axios from 'axios';
-import { addPokemonDetail } from '../app/slices/PokemonSlice';
+import { addToCompare, setSelectedPokemon } from '../app/slices/PokemonSlice';
 
 
 export default function Pokemon() {
   const params = useParams();
   const dispatch = useDispatch();
-  const selectedPokemon = useSelector(({pokemon: {selectedPokemon}}) =>  selectedPokemon)
+  const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
   const navigate = useNavigate()
 
   const getRecursiveEvolution = useCallback(
@@ -20,10 +20,7 @@ export default function Pokemon() {
         return evolutionData.push({
           pokemon: {
             ...evolutionChain.species,
-            url: evolutionChain.species.url.replace(
-              "pokemon-species",
-              "pokemon"
-            ),
+            url: evolutionChain.species.url.replace("pokemon-species", "pokemon"),
           },
           level,
         });
@@ -53,8 +50,8 @@ export default function Pokemon() {
     [getRecursiveEvolution]
   );
 
-  const getPokemonDetail = useCallback(
-    async() => {
+  const setPokemonData = useCallback(
+    async () => {
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
 
       const abilities = data.abilities.map(({ ability }) => ability.name);
@@ -71,40 +68,59 @@ export default function Pokemon() {
       let evolutionLevel;
       evolutionLevel = evolution.find(({ pokemon }) => pokemon.name === data.name).level;
 
-      return { abilities, moves, evolutionLevel, evolution };
+      dispatch(
+        setSelectedPokemon({
+          id: params.id,
+          name: data.name,
+          types: data.types.map(type => type.type.name),
+          sprite: data.sprites["other"]["official-artwork"]["front_default"],
+          height: data.height,
+          weight: data.weight,
+          stats: data.stats.map(stat => stat.base_stat),
+          abilities,
+          moves,
+          evolutionLevel,
+          evolution
+        })
+      );
     },
-    [params.id, getEvolutionData]
+    [params.id, getEvolutionData, dispatch]
   )
 
-  useEffect(() => {
-    dispatch(setPokemonData({id: params.id, stateName: "selected"}))
-    getPokemonDetail().then((data) => {
-      dispatch(addPokemonDetail(data))
+  function handleAddToCompare(id) {
+    getPokemonData(id).then((data) => {
+      dispatch(addToCompare(data))
     })
+  }
+
+  useEffect(() => {
+    setPokemonData()
+
   }, [params.id, dispatch])
 
   return (
     <>
       {selectedPokemon ? (
         <>
-          <button onClick={() => {navigate(`/pokemon/${parseInt(params.id) - 1}`)}}>Prev</button>
-          <button onClick={() => {navigate(`/pokemon/${parseInt(params.id) + 1}`)}}>Next</button>
+          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
+          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
+          <button onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
           <h1>{selectedPokemon.name}</h1>
           <p>
             types: {selectedPokemon.types.map((type) => {
-                return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
-            })}<br/>
-            height: {selectedPokemon.height}<br/>
+              return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
+            })}<br />
+            height: {selectedPokemon.height}<br />
             weight: {selectedPokemon.weight}
           </p>
           <img src={selectedPokemon.sprite} alt="NO IMAGE" loading="lazy" height="500" />
           <p>
-            HP: {selectedPokemon.stats[0]}<br/>
-            AT: {selectedPokemon.stats[1]}<br/>
-            DF: {selectedPokemon.stats[2]}<br/>
-            SA: {selectedPokemon.stats[3]}<br/>
-            SD: {selectedPokemon.stats[4]}<br/>
-            SP: {selectedPokemon.stats[5]}<br/>
+            HP: {selectedPokemon.stats[0]}<br />
+            AT: {selectedPokemon.stats[1]}<br />
+            DF: {selectedPokemon.stats[2]}<br />
+            SA: {selectedPokemon.stats[3]}<br />
+            SD: {selectedPokemon.stats[4]}<br />
+            SP: {selectedPokemon.stats[5]}<br />
           </p>
           <div>{selectedPokemon.evolutionLevel}</div>
           {selectedPokemon.moves && selectedPokemon.moves.map((move) => {
@@ -114,6 +130,6 @@ export default function Pokemon() {
       ) : (
         <Loader />
       )}
-  </>
+    </>
   );
 }
