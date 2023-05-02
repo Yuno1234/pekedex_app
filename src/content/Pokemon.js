@@ -1,4 +1,4 @@
-import React, { useEffect, useCallback } from 'react'
+import React, { useState, useEffect, useCallback } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../components/Loader';
@@ -6,13 +6,20 @@ import { getPokemonData } from '../utils/getPokemonData';
 import { pokemonTypes } from '../utils/pokemonTypes';
 import axios from 'axios';
 import { addToCompare, setSelectedPokemon } from '../app/slices/PokemonSlice';
-
+import { pokemonTabs } from '../app/slices/AppSlice';
+import PokemonNav from '../components/PokemonNav';
+import Description from './Pokemon/Description';
+import Evolution from './Pokemon/Evolution';
+import CapableMoves from './Pokemon/CapableMoves';
 
 export default function Pokemon() {
   const params = useParams();
   const dispatch = useDispatch();
   const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
+  const currentPokemonTab = useSelector(({ app: { currentPokemonTab } }) => currentPokemonTab);
   const navigate = useNavigate()
+  const [isDataLoading, setIsDataLoading] = useState(true)
+  
 
   const getRecursiveEvolution = useCallback(
     (evolutionChain, level, evolutionData) => {
@@ -83,6 +90,7 @@ export default function Pokemon() {
           evolution
         })
       );
+      setIsDataLoading(false)
     },
     [params.id, getEvolutionData, dispatch]
   )
@@ -95,13 +103,28 @@ export default function Pokemon() {
 
   useEffect(() => {
     setPokemonData()
-
+    console.log(selectedPokemon)
   }, [params.id, dispatch])
 
   return (
     <>
-      {selectedPokemon ? (
+      {!isDataLoading && selectedPokemon ? (
         <>
+          <PokemonNav />
+          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
+          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
+          <button onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
+          <h1>{selectedPokemon.name}</h1>
+          {currentPokemonTab === pokemonTabs.description && <Description />}
+          {currentPokemonTab === pokemonTabs.evolution && <Evolution />}
+          {currentPokemonTab === pokemonTabs.moves && <CapableMoves />}
+        </>
+      ) : (
+        <Loader />
+      )}
+      {/* {selectedPokemon ? (
+        <>
+
           <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
           <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
           <button onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
@@ -129,7 +152,7 @@ export default function Pokemon() {
         </>
       ) : (
         <Loader />
-      )}
+      )} */}
     </>
   );
 }

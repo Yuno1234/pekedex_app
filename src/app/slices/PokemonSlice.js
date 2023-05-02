@@ -64,6 +64,8 @@ export const PokemonSlice = createSlice({
     }
 })
 
-export const { setSelectedPokemon,
-    addToCompare } = PokemonSlice.actions
+export const { 
+    setSelectedPokemon,
+    addToCompare 
+} = PokemonSlice.actions
 

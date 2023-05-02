@@ -4,10 +4,13 @@ import { getPokemonsUrl } from '../app/reducers/getPokemonsUrl';
 import { getPokemonsData } from '../app/reducers/getPokemonsData';
 import PokemonList from '../components/PokemonList';
 import { debounce } from '../utils/debounce';
+import Loader from '../components/Loader';
+import { setLoading } from '../app/slices/AppSlice';
 
 export default function Search() {
     const { pokemonUrls, searchPokemon }  = useSelector((state) => state.pokemon)
     const handleChange = debounce((input) => filterPokemon(input), 200)
+    const isLoading = useSelector(({ app: {isLoading} }) => isLoading)
     const dispatch = useDispatch()
 
     function reducePokemon() {
@@ -17,16 +20,6 @@ export default function Search() {
             .slice(0, 50);
         dispatch(getPokemonsData(reducedPokemonUrl)) 
     }
-
-    useEffect(() => {
-        dispatch(getPokemonsUrl())
-    }, [dispatch])
-
-    useEffect(() => {
-        if (pokemonUrls) {
-            reducePokemon()  
-        }
-    }, [pokemonUrls, dispatch])
 
     const filterPokemon = async(input) => {
         if (input.length) {
@@ -39,17 +32,37 @@ export default function Search() {
         }
     }
 
+    useEffect(() => {
+        dispatch(getPokemonsUrl())
+    }, [dispatch])
+
+    useEffect(() => {
+        if (pokemonUrls) {
+            reducePokemon()  
+        }
+    }, [pokemonUrls, dispatch])
+
+    useEffect(() => {
+        if (searchPokemon) {
+            dispatch(setLoading(false))
+        }
+    })
+
   return (
     <>
-        <div className='search'>
-            <h1>Search</h1>
-            <input
-                type="text"
-                onChange={(e) => handleChange(e.target.value)}
-                placeholder="Search Pokemon"
-            />
-            <PokemonList pokemons={searchPokemon} />
-        </div>
+        {isLoading ? (
+            <Loader />
+        ) : (
+            <div className='search'>
+                <h1>Search</h1>
+                <input
+                    type="text"
+                    onChange={(e) => handleChange(e.target.value)}
+                    placeholder="Search Pokemon"
+                />
+                <PokemonList pokemons={searchPokemon} />
+            </div>
+        )}  
     </>    
   )
 }
