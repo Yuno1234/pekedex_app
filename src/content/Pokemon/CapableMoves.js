@@ -7,7 +7,7 @@ export default function CapableMoves() {
   return (
     <>
         {selectedPokemon.moves && selectedPokemon.moves.map((move) => {
-            return <div key={move}>{move}</div>
+            return <div key={move.name}><b>{move.name}</b> <span>{move.effect}</span></div>
         })}
     </>
   )

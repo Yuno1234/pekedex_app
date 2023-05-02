@@ -57,12 +57,30 @@ export default function Pokemon() {
     [getRecursiveEvolution]
   );
 
+  const getMovesData = useCallback(
+    async (url) => {
+      const { data } = await axios.get(url)
+      
+      return {
+        name: data.name,
+        accuracy: data.accuracy,
+        damageType: data.damage_class.physical,
+        power: data.power,
+        pp: data.pp,
+        effect: data.effect_entries[0].effect
+      }
+    },
+    []
+  )
+
   const setPokemonData = useCallback(
     async () => {
       const { data } = await axios.get(`https://pokeapi.co/api/v2/pokemon/${params.id}`)
 
       const abilities = data.abilities.map(({ ability }) => ability.name);
-      const moves = data.moves.map(({ move }) => move.name);
+      const moves = await Promise.all(
+        data.moves.map(({ move }) => getMovesData(move.url))
+      );
 
       const {
         data: {
