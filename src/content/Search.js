@@ -32,6 +32,7 @@ export default function Search() {
             const pokemons = pokemonUrls.filter((pokemon) => 
                 pokemon.name.includes(input.toLowerCase())
             );
+            setFilteredPokemon(pokemons)
             dispatch(clearSearchPokemon())
             dispatch(getPokemonsData(pokemons.slice(0, 50)))
         } else {
@@ -63,10 +64,12 @@ export default function Search() {
             if (entries[0].isIntersecting) {
               observer.unobserve(observerTarget.current);
               if (isSearching) {
-                console.log('searching')
+                const index = searchPokemon.indexOf(searchPokemon[searchPokemon.length - 1])
+                const nextFilteredPokemon = filteredPokemon.slice(index + 1, index + 51)
+                dispatch(getPokemonsData(nextFilteredPokemon))
               } else {
-                const index = searchPokemon[searchPokemon.length - 2].id;
-                const nextPokemonUrls = pokemonUrls.slice(index + 1, index + 51);
+                const id = searchPokemon[searchPokemon.length - 1].id;
+                const nextPokemonUrls = pokemonUrls.slice(id, id + 50);
                 dispatch(getPokemonsData(nextPokemonUrls))
               }
               
