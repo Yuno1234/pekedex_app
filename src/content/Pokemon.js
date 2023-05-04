@@ -60,14 +60,13 @@ export default function Pokemon() {
   const getMovesData = useCallback(
     async (url) => {
       const { data } = await axios.get(url)
-      
+
       return {
         name: data.name,
         accuracy: data.accuracy,
         damageType: data.damage_class.physical,
         power: data.power,
         pp: data.pp,
-        effect: data.effect_entries[0].effect
       }
     },
     []
@@ -121,7 +120,6 @@ export default function Pokemon() {
 
   useEffect(() => {
     setPokemonData()
-    console.log(selectedPokemon)
   }, [params.id, dispatch])
 
   return (
@@ -140,7 +138,12 @@ export default function Pokemon() {
       ) : (
         <Loader />
       )}
-      {/* {selectedPokemon ? (
+      
+    </>
+  );
+}
+
+{/* {selectedPokemon ? (
         <>
 
           <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
@@ -171,6 +174,3 @@ export default function Pokemon() {
       ) : (
         <Loader />
       )} */}
-    </>
-  );
-}

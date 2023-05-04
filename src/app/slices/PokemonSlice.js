@@ -1,12 +1,11 @@
 import { createSlice, current } from "@reduxjs/toolkit";
 import { getPokemonsUrl } from "../reducers/getPokemonsUrl";
 import { getPokemonsData } from "../reducers/getPokemonsData";
-import { getPokemonData } from "../../utils/getPokemonData";
 
 
 const initialState = {
     pokemonUrls: null,
-    searchPokemon: null,
+    searchPokemon: [],
     selectedPokemon: null,
     compareQueue: [],
 };
@@ -41,6 +40,14 @@ export const PokemonSlice = createSlice({
         builder.addCase(getPokemonsData.fulfilled, (state, action) => {
             state.searchPokemon = action.payload;
         });
+    }
+})
+
+export const { 
+    setSelectedPokemon,
+    addToCompare 
+} = PokemonSlice.actions
+
         // builder.addCase(setPokemonData.fulfilled, (state, action) => {
         //     if (action.payload.stateName === "selected") {
         //         state.selectedPokemon = action.payload.data
@@ -61,11 +68,3 @@ export const PokemonSlice = createSlice({
         //         } 
         //     }
         // })
-    }
-})
-
-export const { 
-    setSelectedPokemon,
-    addToCompare 
-} = PokemonSlice.actions
-

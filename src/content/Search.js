@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsUrl } from '../app/reducers/getPokemonsUrl';
 import { getPokemonsData } from '../app/reducers/getPokemonsData';
@@ -12,6 +12,7 @@ export default function Search() {
     const handleChange = debounce((input) => filterPokemon(input), 200)
     const isLoading = useSelector(({ app: {isLoading} }) => isLoading)
     const dispatch = useDispatch()
+    const observerTarget = useRef(null)
 
     function reducePokemon() {
         const pokemonUrlsCopy = [...pokemonUrls];
@@ -46,7 +47,31 @@ export default function Search() {
         if (searchPokemon) {
             dispatch(setLoading(false))
         }
-    })
+    }, [])
+
+    useEffect(() => {
+        const observer = new IntersectionObserver(
+          entries => {
+            if (entries[0].isIntersecting) {
+              console.log('visible')
+              const index = searchPokemon[searchPokemon.length - 2].id;
+              const nextPokemonUrls = pokemonUrls.slice(index + 1, index + 51);
+              console.log(nextPokemonUrls)
+            }
+          },
+          { threshold: 0 }
+        );
+      
+        if (observerTarget.current) {
+          observer.observe(observerTarget.current);
+        }
+      
+        return () => {
+          if (observerTarget.current) {
+            observer.unobserve(observerTarget.current);
+          }
+        };
+    }, [observerTarget, searchPokemon]);
 
   return (
     <>
@@ -60,7 +85,7 @@ export default function Search() {
                     onChange={(e) => handleChange(e.target.value)}
                     placeholder="Search Pokemon"
                 />
-                <PokemonList pokemons={searchPokemon} />
+                <PokemonList pokemons={searchPokemon} ref={observerTarget} />
             </div>
         )}  
     </>    
