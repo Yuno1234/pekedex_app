@@ -12,7 +12,7 @@ const Compare = lazy(() => import("./content/Compare"));
 
 function App() {
   const selectedPokemon = useSelector(({pokemon: {selectedPokemon}}) =>  selectedPokemon)
-  const randomNum = Math.floor( Math.random() * 1009) + 1
+  const randomNum = Math.floor(Math.random() * 1009) + 1
   
   return (
     <BrowserRouter>

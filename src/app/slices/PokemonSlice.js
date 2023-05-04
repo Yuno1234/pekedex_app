@@ -30,6 +30,9 @@ export const PokemonSlice = createSlice({
                 compareQueue.push(action.payload)
                 state.compareQueue = compareQueue
             }
+        },
+        clearSearchPokemon: (state) => {
+            state.searchPokemon = []
         }
     },
 
@@ -38,33 +41,38 @@ export const PokemonSlice = createSlice({
             state.pokemonUrls = action.payload;
         });
         builder.addCase(getPokemonsData.fulfilled, (state, action) => {
-            state.searchPokemon = action.payload;
+            state.searchPokemon = [...state.searchPokemon, ...action.payload]
         });
     }
 })
 
 export const { 
     setSelectedPokemon,
-    addToCompare 
+    addToCompare,
+    clearSearchPokemon 
 } = PokemonSlice.actions
 
-        // builder.addCase(setPokemonData.fulfilled, (state, action) => {
-        //     if (action.payload.stateName === "selected") {
-        //         state.selectedPokemon = action.payload.data
-        //     }
+// builder.addCase(setPokemonData.fulfilled, (state, action) => {
+//     if (action.payload.stateName === "selected") {
+//         state.selectedPokemon = action.payload.data
+//     }
 
-        //     if (action.payload.stateName === "compare") {
-        //         const index = state.compareQueue.findIndex(
-        //             (pokemon) => pokemon.id === action.payload.data.id
-        //         );
+//     if (action.payload.stateName === "compare") {
+//         const index = state.compareQueue.findIndex(
+//             (pokemon) => pokemon.id === action.payload.data.id
+//         );
 
-        //         if (index === -1) {
-        //             const compareQueue = [...state.compareQueue]
-        //             if (state.compareQueue.length >= 2) {
-        //                 compareQueue.shift()
-        //             }
-        //             compareQueue.push(action.payload.data)
-        //             state.compareQueue = compareQueue
-        //         } 
-        //     }
-        // })
+//         if (index === -1) {
+//             const compareQueue = [...state.compareQueue]
+//             if (state.compareQueue.length >= 2) {
+//                 compareQueue.shift()
+//             }
+//             compareQueue.push(action.payload.data)
+//             state.compareQueue = compareQueue
+//         } 
+//     }
+// })
+
+// builder.addCase(getPokemonsData.fulfilled, (state, action) => {
+//     state.searchPokemon = action.payload;
+// });

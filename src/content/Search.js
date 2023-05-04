@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { getPokemonsUrl } from '../app/reducers/getPokemonsUrl';
 import { getPokemonsData } from '../app/reducers/getPokemonsData';
@@ -6,13 +6,17 @@ import PokemonList from '../components/PokemonList';
 import { debounce } from '../utils/debounce';
 import Loader from '../components/Loader';
 import { setLoading } from '../app/slices/AppSlice';
+import { clearSearchPokemon } from '../app/slices/PokemonSlice';
 
 export default function Search() {
     const { pokemonUrls, searchPokemon }  = useSelector((state) => state.pokemon)
     const handleChange = debounce((input) => filterPokemon(input), 200)
     const isLoading = useSelector(({ app: {isLoading} }) => isLoading)
+    
     const dispatch = useDispatch()
     const observerTarget = useRef(null)
+    const [isSearching, setIsSearching] = useState(false)
+    const [filteredPokemon, setFilteredPokemon] = useState([])
 
     function reducePokemon() {
         const pokemonUrlsCopy = [...pokemonUrls];
@@ -24,11 +28,15 @@ export default function Search() {
 
     const filterPokemon = async(input) => {
         if (input.length) {
+            setIsSearching(true)
             const pokemons = pokemonUrls.filter((pokemon) => 
                 pokemon.name.includes(input.toLowerCase())
             );
+            dispatch(clearSearchPokemon())
             dispatch(getPokemonsData(pokemons.slice(0, 50)))
         } else {
+            setIsSearching(false)
+            dispatch(clearSearchPokemon())
             reducePokemon()
         }
     }
@@ -38,7 +46,7 @@ export default function Search() {
     }, [dispatch])
 
     useEffect(() => {
-        if (pokemonUrls) {
+        if (pokemonUrls && !searchPokemon.length) {
             reducePokemon()  
         }
     }, [pokemonUrls, dispatch])
@@ -53,10 +61,15 @@ export default function Search() {
         const observer = new IntersectionObserver(
           entries => {
             if (entries[0].isIntersecting) {
-              console.log('visible')
-              const index = searchPokemon[searchPokemon.length - 2].id;
-              const nextPokemonUrls = pokemonUrls.slice(index + 1, index + 51);
-              console.log(nextPokemonUrls)
+              observer.unobserve(observerTarget.current);
+              if (isSearching) {
+                console.log('searching')
+              } else {
+                const index = searchPokemon[searchPokemon.length - 2].id;
+                const nextPokemonUrls = pokemonUrls.slice(index + 1, index + 51);
+                dispatch(getPokemonsData(nextPokemonUrls))
+              }
+              
             }
           },
           { threshold: 0 }
