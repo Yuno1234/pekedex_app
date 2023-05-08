@@ -18,8 +18,12 @@ const PokemonCard = forwardRef(function PokemonCard({ pokemon }, ref) {
     };
 
     return (
-      <div id={pokemon.id} ref={ref}>
-        <span>{pokemon.id}</span>
+      <div id={pokemon.id} ref={ref} className='flex flex-col items-center w-48 h-56 border-2 rounded-xl' >
+        <div className='flex justify-between w-full mx-2'>
+            <span className='font-bold '>{pokemon.id}</span>
+            <button onClick={() => handleAddToCompare(pokemon.id)}>Compare</button>
+        </div>
+        <h3 className='text-xl font-bold'>{pokemon.name.toUpperCase()}</h3>
         <img
           src={pokemon.sprite}
           onClick={() => {
@@ -28,13 +32,13 @@ const PokemonCard = forwardRef(function PokemonCard({ pokemon }, ref) {
           }}
           alt="NO IMAGE"
           loading="lazy"
-          height="100"
+          className='w-32'
         />
-        {pokemon.types.map((type) => (
-          <img key={type} src={pokemonTypes[type].image} loading="lazy" height="32" />
-        ))}<br />
-        <h3>{pokemon.name}</h3>
-        <button onClick={() => handleAddToCompare(pokemon.id)}>Add to Compare</button>
+        <div className='flex flex-row gap-2'>
+            {pokemon.types.map((type) => (
+                <img className='w-8' key={type} src={pokemonTypes[type].image} loading="lazy" />
+            ))}
+        </div>
       </div>
     );
 });

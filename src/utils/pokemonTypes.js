@@ -20,110 +20,146 @@ import fairy from "../assets/types/fairy.svg"
 export const pokemonTypes = {
     normal: {
         image: normal,
-        noEffect: [ghost],
-        notEffective: [],
-        superEffective: [fighting],
+        weakness: {
+            noEffect: ["ghost"],
+            notEffective: [],
+            superEffective: ["fighting"],
+        }
     },
     fire: {
         image: fire,
-        noEffect: [],
-        notEffective: [fire, grass, ice, bug, steel, fairy],
-        superEffective: [water, ground, rock],
+        weakness: {
+            noEffect: [],
+            notEffective: ["fire", "grass", "ice", "bug", "steel", "fairy"],
+            superEffective: ["water", "ground", "rock"],
+        }
     },
     water: {
         image: water,
-        noEffect: [],
-        notEffective: [fire, water, ice, steel],
-        superEffective: [electric, grass],
+        weakness: {
+            noEffect: [],
+            notEffective: ["fire", "water", "ice", "steel"],
+            superEffective: ["electric", "grass"],
+        }
     },
     electric: {
         image: electric,
-        noEffect: [],
-        notEffective: [electric, flying, steel],
-        superEffective: [ground],
+        weakness: {
+            noEffect: [],
+            notEffective: ["electric", "flying", "steel"],
+            superEffective: ["ground"],
+        }
     },
     grass: {
         image: grass,
-        noEffect: [],
-        notEffective: [water, electric, grass, ground],
-        superEffective: [fire, ice, poison, flying, bug],
+        weakness: {
+            noEffect: [],
+            notEffective: ["water", "electric", "grass", "ground"],
+            superEffective: ["fire", "ice", "poison", "flying", "bug"],
+        }
     },
     ice: {
         image: ice,
-        noEffect: [],
-        notEffective: [ice],
-        superEffective: [fire, fighting, rock, steel],
+        weakness: {
+            noEffect: [],
+            notEffective: ["ice"],
+            superEffective: ["fire", "fighting", "rock", "steel"],
+        }
     },
     fighting: {
         image: fighting,
-        noEffect: [],
-        notEffective: [bug, rock, dark],
-        superEffective: [flying, psychic, fairy],
+        weakness: {
+            noEffect: [],
+            notEffective: ["bug", "rock", "dark"],
+            superEffective: ["flying", "psychic", "fairy"],
+        }
     },
     poison: {
         image: poison,
-        noEffect: [],
-        notEffective: [grass, fighting, poison, bug, fairy],
-        superEffective: [ground, psychic],
+        weakness: {
+            noEffect: [],
+            notEffective: ["grass", "fighting", "poison", "bug", "fairy"],
+            superEffective: ["ground", "psychic"],
+        }
     },
     ground: {
         image: ground,
-        noEffect: [electric],
-        notEffective: [poison, rock],
-        superEffective: [water, grass, ice],
+        weakness: {
+            noEffect: ["electric"],
+            notEffective: ["poison", "rock"],
+            superEffective: ["water", "grass", "ice"],
+        }
     },
     flying: {
         image: flying,
-        noEffect: [ground],
-        notEffective: [grass, fighting, bug],
-        superEffective: [electric, ice, rock],
+        weakness: {
+            noEffect: ["ground"],
+            notEffective: ["grass", "fighting", "bug"],
+            superEffective: ["electric", "ice", "rock"],
+        }
     },
     psychic: {
         image: psychic,
-        noEffect: [],
-        notEffective: [fighting, psychic],
-        superEffective: [bug, ghost, dark],
+        weakness: {
+            noEffect: [],
+            notEffective: ["fighting", "psychic"],
+            superEffective: ["bug", "ghost", "dark"],
+        }
     },
     bug: {
         image: bug,
-        noEffect: [],
-        notEffective: [grass, fighting, ground],
-        superEffective: [fire, flying, rock],
+        weakness: {
+            noEffect: [],
+            notEffective: ["grass", "fighting", "ground"],
+            superEffective: ["fire", "flying", "rock"],
+        }
     },
     rock: {
         image: rock,
-        noEffect: [],
-        notEffective: [normal, fire, poison, flying],
-        superEffective: [water, grass, fighting, ground, steel],
+        weakness: {
+            noEffect: [],
+            notEffective: ["normal", "fire", "poison", "flying"],
+            superEffective: ["water", "grass", "fighting", "ground", "steel"],
+        }
     },
     ghost: {
         image: ghost,
-        noEffect: [normal, fighting],
-        notEffective: [poison, bug],
-        superEffective: [ghost, dark],
+        weakness: {
+            noEffect: ["normal", "fighting"],
+            notEffective: ["poison", "bug"],
+            superEffective: ["ghost", "dark"],
+        }
     },
     dragon: {
         image: dragon,
-        noEffect: [],
-        notEffective: [fire, water, electric, grass],
-        superEffective: [ice, dragon, fairy],
+        weakness: {
+            noEffect: [],
+            notEffective: ["fire", "water", "electric", "grass"],
+            superEffective: ["ice", "dragon", "fairy"],
+        }
     },
     dark: {
         image: dark,
-        noEffect: [psychic],
-        notEffective: [ghost, dark],
-        superEffective: [fighting, bug, fairy],
+        weakness: {
+            noEffect: ["psychic"],
+            notEffective: ["ghost", "dark"],
+            superEffective: ["fighting", "bug", "fairy"],
+        }
     },
     steel: {
         image: steel,
-        noEffect: [poison],
-        notEffective: [normal, grass, ice, flying, psychic, bug, rock, dragon, steel, fairy],
-        superEffective: [fire, fighting, ground],
+        weakness: {
+            noEffect: ["poison"],
+            notEffective: ["normal", "grass", "ice", "flying", "psychic", "bug", "rock", "dragon", "steel", "fairy"],
+            superEffective: ["fire", "fighting", "ground"],
+        }
     },
     fairy: {
         image: fairy,
-        noEffect: [dragon],
-        notEffective: [fighting, bug, dark],
-        superEffective: [poison, steel],
+        weakness: {
+            noEffect: ["dragon"],
+            notEffective: ["fighting", "bug", "dark"],
+            superEffective: ["poison", "steel"],
+        }
     }
 }

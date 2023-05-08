@@ -1,10 +1,22 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import PokemonCard from '../../components/PokemonCard'
 
 export default function Evolution() {
     const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
+    const dispatch = useDispatch()
 
     return (
-        <div>{selectedPokemon.evolutionLevel}</div>
+        <>
+            <h2 className='text-2xl font-bold'>#{selectedPokemon.id}</h2>
+            <h1 className='text-3xl font-extrabold'>{selectedPokemon.name.toUpperCase()}</h1>
+            <div>{selectedPokemon.evolutionLevel}</div>
+            {selectedPokemon.evolution?.map((pokemon) => (
+                <PokemonCard
+                    key={pokemon.pokemon.id}
+                    pokemon={pokemon.pokemon}
+                />
+            ))}
+        </>
     )
 }

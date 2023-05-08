@@ -11,6 +11,7 @@ import PokemonNav from '../components/PokemonNav';
 import Description from './Pokemon/Description';
 import Evolution from './Pokemon/Evolution';
 import CapableMoves from './Pokemon/CapableMoves';
+import { getEffectiveness } from '../utils/getEffectiveness';
 
 export default function Pokemon() {
   const params = useParams();
@@ -19,6 +20,7 @@ export default function Pokemon() {
   const currentPokemonTab = useSelector(({ app: { currentPokemonTab } }) => currentPokemonTab);
   const navigate = useNavigate()
   const [isDataLoading, setIsDataLoading] = useState(true)
+  const randomNum = Math.floor(Math.random() * 1009) + 1
   
 
   const getRecursiveEvolution = useCallback(
@@ -49,10 +51,28 @@ export default function Pokemon() {
   );
 
   const getEvolutionData = useCallback(
-    (evolutionChain) => {
-      const evolutionData = [];
-      getRecursiveEvolution(evolutionChain, 1, evolutionData);
-      return evolutionData;
+    async(evolutionChain) => {
+      const evolutionsUrl = [];
+      const evolutionsData = [];
+      getRecursiveEvolution(evolutionChain, 1, evolutionsUrl);
+      try {
+        for await (const pokemon of evolutionsUrl) {
+          const { data } = await axios.get(pokemon.pokemon.url)
+          const typeNames = data.types.map(type => type.type.name)
+          evolutionsData.push({
+            pokemon: {
+              id: data.id,
+              name: data.name,
+              types: typeNames,
+              sprite: data.sprites["other"]["official-artwork"]["front_default"]
+            },
+            level: pokemon.level
+          })
+        }
+        return evolutionsData;
+      } catch (err) {
+        console.error(err)
+      }
     },
     [getRecursiveEvolution]
   );
@@ -60,16 +80,18 @@ export default function Pokemon() {
   const getMovesData = useCallback(
     async (url) => {
       const { data } = await axios.get(url)
-
       return {
+        id: data.id,
         name: data.name,
         accuracy: data.accuracy,
-        damageType: data.damage_class.physical,
+        class: data.damage_class.name,
         power: data.power,
         pp: data.pp,
+        effect: data.effect_entries.length > 0 ? data.effect_entries[0].short_effect : '',
+        type: data.type.name,
       }
     },
-    []
+    [selectedPokemon]
   )
 
   const setPokemonData = useCallback(
@@ -86,12 +108,12 @@ export default function Pokemon() {
           evolution_chain: { url: evolutionURL },
         },
       } = await axios.get(`https://pokeapi.co/api/v2/pokemon-species/${params.id}`);
-      const { data: evolutionData } = await axios.get(evolutionURL);
-      const evolution = getEvolutionData(evolutionData.chain);
-
+      const { data: evolutionsUrl } = await axios.get(evolutionURL);
+      const evolution = await getEvolutionData(evolutionsUrl.chain);
+      
       let evolutionLevel;
       evolutionLevel = evolution.find(({ pokemon }) => pokemon.name === data.name).level;
-
+      
       dispatch(
         setSelectedPokemon({
           id: params.id,
@@ -104,7 +126,8 @@ export default function Pokemon() {
           abilities,
           moves,
           evolutionLevel,
-          evolution
+          evolution,
+          effectiveness: getEffectiveness(data.types.map(type => type.type.name))
         })
       );
       setIsDataLoading(false)
@@ -120,6 +143,7 @@ export default function Pokemon() {
 
   useEffect(() => {
     setPokemonData()
+    console.log(selectedPokemon)
   }, [params.id, dispatch])
 
   return (
@@ -127,10 +151,12 @@ export default function Pokemon() {
       {!isDataLoading && selectedPokemon ? (
         <>
           <PokemonNav />
-          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
-          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
-          <button onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
-          <h1>{selectedPokemon.name}</h1>
+          <div>
+            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
+            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
+            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${randomNum}`)}}>Random</button>
+            <button className='border-2 rounded-lg' onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
+          </div>
           {currentPokemonTab === pokemonTabs.description && <Description />}
           {currentPokemonTab === pokemonTabs.evolution && <Evolution />}
           {currentPokemonTab === pokemonTabs.moves && <CapableMoves />}
@@ -142,35 +168,3 @@ export default function Pokemon() {
     </>
   );
 }
-
-{/* {selectedPokemon ? (
-        <>
-
-          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
-          <button onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
-          <button onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
-          <h1>{selectedPokemon.name}</h1>
-          <p>
-            types: {selectedPokemon.types.map((type) => {
-              return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
-            })}<br />
-            height: {selectedPokemon.height}<br />
-            weight: {selectedPokemon.weight}
-          </p>
-          <img src={selectedPokemon.sprite} alt="NO IMAGE" loading="lazy" height="500" />
-          <p>
-            HP: {selectedPokemon.stats[0]}<br />
-            AT: {selectedPokemon.stats[1]}<br />
-            DF: {selectedPokemon.stats[2]}<br />
-            SA: {selectedPokemon.stats[3]}<br />
-            SD: {selectedPokemon.stats[4]}<br />
-            SP: {selectedPokemon.stats[5]}<br />
-          </p>
-          <div>{selectedPokemon.evolutionLevel}</div>
-          {selectedPokemon.moves && selectedPokemon.moves.map((move) => {
-            return <div key={move}>{move}</div>
-          })}
-        </>
-      ) : (
-        <Loader />
-      )} */}

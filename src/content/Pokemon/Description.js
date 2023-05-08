@@ -3,27 +3,48 @@ import { useSelector } from 'react-redux'
 import { pokemonTypes } from '../../utils/pokemonTypes'
 
 export default function Description() {
-    const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
+const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
 
   return (
-    <>
-        <p>
-            types: {selectedPokemon.types.map((type) => {
-                return <img key={type} src={pokemonTypes[type].image} loading="lazy" height="64" />
-            })}<br />
-            height: {selectedPokemon.height}<br />
-            weight: {selectedPokemon.weight}
-        </p>
-        <img src={selectedPokemon.sprite} alt="NO IMAGE" loading="lazy" height="500" />
-        <p>
-            HP: {selectedPokemon.stats[0]}<br />
-            AT: {selectedPokemon.stats[1]}<br />
-            DF: {selectedPokemon.stats[2]}<br />
-            SA: {selectedPokemon.stats[3]}<br />
-            SD: {selectedPokemon.stats[4]}<br />
-            SP: {selectedPokemon.stats[5]}<br />
-        </p>
-    </>
-
+    <div className='flex text-lg font-medium w-screen items-center justify-center'>
+        <div className='flex flex-col gap-5'>
+            <div>
+                <h2 className='text-2xl font-bold'>#{selectedPokemon.id}</h2>
+                <h1 className='text-3xl font-extrabold'>{selectedPokemon.name.toUpperCase()}</h1>
+            </div>
+            <div className='flex flex-row gap-1'>
+                {selectedPokemon.types.map((type) => {
+                    return <img className='w-10' key={type} src={pokemonTypes[type].image} loading="lazy"/>
+                })}
+            </div>
+            <p>
+                <label className='font-bold'>Height:</label> {selectedPokemon.height}<br />
+                <label className='font-bold'>Weight:</label> {selectedPokemon.weight}
+            </p>
+        </div>
+        <div className='w-5/12'>
+            <img className='w-full' src={selectedPokemon.sprite} alt="NO IMAGE" loading="lazy" />
+        </div>
+        <div>
+            <div>
+                <p>
+                    <label className='font-bold'>HP:</label> {selectedPokemon.stats[0]}<br />
+                    <label className='font-bold'>AT:</label> {selectedPokemon.stats[1]}<br />
+                    <label className='font-bold'>DF:</label> {selectedPokemon.stats[2]}<br />
+                    <label className='font-bold'>SA:</label> {selectedPokemon.stats[3]}<br />
+                    <label className='font-bold'>SD:</label> {selectedPokemon.stats[4]}<br />
+                    <label className='font-bold'>SP:</label> {selectedPokemon.stats[5]}<br />
+                </p>
+            </div>
+            <div>
+                {Object.entries(selectedPokemon.effectiveness).map(([effect, types]) => {
+                    return <div className='flex items-center gap-1 font-bold' key={effect}>
+                        x{effect} : {types.map((type) => {return <img className='w-10' key={type} src={pokemonTypes[type].image} loading="lazy"/>})}
+                    </div>
+                })}
+                
+            </div>
+        </div>
+    </div>
   )
 }

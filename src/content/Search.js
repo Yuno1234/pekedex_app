@@ -101,9 +101,12 @@ export default function Search() {
                     onChange={(e) => handleChange(e.target.value)}
                     placeholder="Search Pokemon"
                 />
-                <PokemonList pokemons={searchPokemon} ref={observerTarget} />
+                <div className='flex justify-center max-w-full'>
+                  <PokemonList pokemons={searchPokemon} ref={observerTarget} />
+                </div>
+                
             </div>
-        )}  
+        )} 
     </>    
   )
 }
