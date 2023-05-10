@@ -10,9 +10,8 @@ import { clearSearchPokemon } from '../app/slices/PokemonSlice';
 
 export default function Search() {
     const { pokemonUrls, searchPokemon }  = useSelector((state) => state.pokemon)
-    const handleChange = debounce((input) => filterPokemon(input), 200)
-    const isLoading = useSelector(({ app: {isLoading} }) => isLoading)
-    
+    const { isLoading } = useSelector((state) => state.app)
+    const handleChange = debounce((input) => filterPokemon(input), 200)        
     const dispatch = useDispatch()
     const observerTarget = useRef(null)
     const [isSearching, setIsSearching] = useState(false)
@@ -29,11 +28,11 @@ export default function Search() {
     const filterPokemon = async(input) => {
         if (input.length) {
             setIsSearching(true)
+            dispatch(clearSearchPokemon())
             const pokemons = pokemonUrls.filter((pokemon) => 
                 pokemon.name.includes(input.toLowerCase())
             );
             setFilteredPokemon(pokemons)
-            dispatch(clearSearchPokemon())
             dispatch(getPokemonsData(pokemons.slice(0, 50)))
         } else {
             setIsSearching(false)
@@ -64,7 +63,7 @@ export default function Search() {
             if (entries[0].isIntersecting) {
               observer.unobserve(observerTarget.current);
               if (isSearching) {
-                const index = searchPokemon.indexOf(searchPokemon[searchPokemon.length - 1])
+                const index = filteredPokemon.indexOf(filteredPokemon[filteredPokemon.length - 1])
                 const nextFilteredPokemon = filteredPokemon.slice(index + 1, index + 51)
                 dispatch(getPokemonsData(nextFilteredPokemon))
               } else {
@@ -72,7 +71,6 @@ export default function Search() {
                 const nextPokemonUrls = pokemonUrls.slice(id, id + 50);
                 dispatch(getPokemonsData(nextPokemonUrls))
               }
-              
             }
           },
           { threshold: 0 }
@@ -95,16 +93,15 @@ export default function Search() {
           <Loader />
       ) : (      
         <div className='flex flex-col items-center max-w-full'>
-          <div className='sticky top-15 bg-white/95 drop-shadow-md'>
-            <input
-              type="text"
-              className='my-3 py-2 pr-20 pl-4 border-2 rounded-3xl'
-              onChange={(e) => handleChange(e.target.value)}
-              placeholder="Search Pokemon"
-            />
-          </div>
           
-          <div className='flex flex-wrap justify-between gap-8 max-w-screen-2xl mx-8'>
+          <input
+            type="text"
+            className='my-3 py-2 pr-20 pl-4 border-2 rounded-3xl fixed -top-1 right-2'
+            onChange={(e) => handleChange(e.target.value)}
+            placeholder="Search Pokemon"
+          />
+          
+          <div className='flex flex-wrap justify-between gap-8 max-w-screen-2xl m-8 '>
             <PokemonList pokemons={searchPokemon} ref={observerTarget} />
           </div>
         </div> 

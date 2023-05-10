@@ -16,9 +16,6 @@ export default function Navbar() {
         {location.pathname.includes("/pokemon") && (
           <PokemonNav/>
         )}
-        {/* {location.pathname.includes("/search") && (
-          
-        )} */}
     </nav>
   )
 }

@@ -26,5 +26,5 @@ export const AppSlice = createSlice({
 
 export const {
     setLoading,
-    setPokemonTab 
+    setPokemonTab
 } = AppSlice.actions;
