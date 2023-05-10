@@ -11,12 +11,14 @@ export default function Evolution() {
             <h2 className='text-2xl font-bold'>#{selectedPokemon.id}</h2>
             <h1 className='text-3xl font-extrabold'>{selectedPokemon.name.toUpperCase()}</h1>
             <div>{selectedPokemon.evolutionLevel}</div>
-            {selectedPokemon.evolution?.map((pokemon) => (
-                <PokemonCard
-                    key={pokemon.pokemon.id}
-                    pokemon={pokemon.pokemon}
-                />
-            ))}
+            <div className='flex justify-center gap-20 items-center absolute inset-0 -z-10'>
+                {selectedPokemon.evolution?.map((pokemon) => (
+                    <PokemonCard
+                        key={pokemon.pokemon.id}
+                        pokemon={pokemon.pokemon}
+                    />
+                ))}
+            </div>
         </>
     )
 }

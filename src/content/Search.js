@@ -91,22 +91,24 @@ export default function Search() {
 
   return (
     <>
-        {isLoading ? (
-            <Loader />
-        ) : (
-            <div className='search'>
-                <h1>Search</h1>
-                <input
-                    type="text"
-                    onChange={(e) => handleChange(e.target.value)}
-                    placeholder="Search Pokemon"
-                />
-                <div className='flex justify-center max-w-full'>
-                  <PokemonList pokemons={searchPokemon} ref={observerTarget} />
-                </div>
-                
-            </div>
-        )} 
+      {isLoading ? (
+          <Loader />
+      ) : (      
+        <div className='flex flex-col items-center max-w-full'>
+          <div className='sticky top-15 bg-white/95 drop-shadow-md'>
+            <input
+              type="text"
+              className='my-3 py-2 pr-20 pl-4 border-2 rounded-3xl'
+              onChange={(e) => handleChange(e.target.value)}
+              placeholder="Search Pokemon"
+            />
+          </div>
+          
+          <div className='flex flex-wrap justify-between gap-8 max-w-screen-2xl mx-8'>
+            <PokemonList pokemons={searchPokemon} ref={observerTarget} />
+          </div>
+        </div> 
+      )} 
     </>    
   )
 }

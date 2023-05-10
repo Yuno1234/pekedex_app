@@ -7,7 +7,6 @@ import { pokemonTypes } from '../utils/pokemonTypes';
 import axios from 'axios';
 import { addToCompare, setSelectedPokemon } from '../app/slices/PokemonSlice';
 import { pokemonTabs } from '../app/slices/AppSlice';
-import PokemonNav from '../components/PokemonNav';
 import Description from './Pokemon/Description';
 import Evolution from './Pokemon/Evolution';
 import CapableMoves from './Pokemon/CapableMoves';
@@ -150,12 +149,11 @@ export default function Pokemon() {
     <>
       {!isDataLoading && selectedPokemon ? (
         <>
-          <PokemonNav />
-          <div>
-            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
-            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
-            <button className='border-2 rounded-lg' onClick={() => { navigate(`/pokemon/${randomNum}`)}}>Random</button>
-            <button className='border-2 rounded-lg' onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
+          <div className='flex gap-3 justify-end'>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${randomNum}`)}}>Random</button>
+            <button className='border-2 rounded-md' onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
           </div>
           {currentPokemonTab === pokemonTabs.description && <Description />}
           {currentPokemonTab === pokemonTabs.evolution && <Evolution />}

@@ -1,5 +1,5 @@
 import React from 'react'
-import { useLocation } from 'react-router-dom'
+
 import { useDispatch, useSelector } from 'react-redux';
 import { pokemonTabs } from '../app/slices/AppSlice';
 import { setPokemonTab } from '../app/slices/AppSlice';
@@ -7,7 +7,6 @@ import { setPokemonTab } from '../app/slices/AppSlice';
 
 export default function PokemonNav() {
     const dispatch = useDispatch();
-    const location = useLocation();
     const currentPokemonTab = useSelector(({ app: { currentPokemonTab } }) => currentPokemonTab);
 
     const routes = [
@@ -26,8 +25,8 @@ export default function PokemonNav() {
       ];
 
   return (
-    <nav>
-        <ul>
+    <nav className='max-w-full text-xl font-bold'>
+        <ul className='flex justify-evenly'>
             {routes.map((route) => (
               <li
                 key={route.name}

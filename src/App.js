@@ -17,16 +17,18 @@ function App() {
   return (
     <BrowserRouter>
       <Suspense fallback={<Loader />}>
-        <Navbar />
-        <Routes>
-          <Route path="/search" element={<Search />}/>
-          <Route path="/pokemon">
-            <Route index element={selectedPokemon ? <Navigate to={`/pokemon/${selectedPokemon.id}`}/> : <Navigate to={`/pokemon/${randomNum}`}/>}/>
-            <Route path=":id" element={ <Pokemon />}/>
-          </Route>
-          <Route path="/compare" element={<Compare />}/>
-          <Route path="*" element={<Navigate to="/search" />}/>
-        </Routes>
+        <div className='max-w-full'>
+          <Navbar />
+          <Routes>
+            <Route path="/search" element={<Search />}/>
+            <Route path="/pokemon">
+              <Route index element={selectedPokemon ? <Navigate to={`/pokemon/${selectedPokemon.id}`}/> : <Navigate to={`/pokemon/${randomNum}`}/>}/>
+              <Route path=":id" element={ <Pokemon />}/>
+            </Route>
+            <Route path="/compare" element={<Compare />}/>
+            <Route path="*" element={<Navigate to="/search" />}/>
+          </Routes>
+        </div>
       </Suspense>
     </BrowserRouter>
   );

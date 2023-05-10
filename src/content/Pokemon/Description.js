@@ -6,11 +6,11 @@ export default function Description() {
 const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
 
   return (
-    <div className='flex text-lg font-medium w-screen items-center justify-center'>
+    <div className='flex text-lg font-medium w-screen items-center justify-center absolute inset-0 -z-10'>
         <div className='flex flex-col gap-5'>
             <div>
                 <h2 className='text-2xl font-bold'>#{selectedPokemon.id}</h2>
-                <h1 className='text-3xl font-extrabold'>{selectedPokemon.name.toUpperCase()}</h1>
+                <h1 className='text-5xl font-extrabold'>{selectedPokemon.name.toUpperCase()}</h1>
             </div>
             <div className='flex flex-row gap-1'>
                 {selectedPokemon.types.map((type) => {
@@ -25,7 +25,7 @@ const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => select
         <div className='w-5/12'>
             <img className='w-full' src={selectedPokemon.sprite} alt="NO IMAGE" loading="lazy" />
         </div>
-        <div>
+        <div className='flex flex-col gap-8 justify-center items'>
             <div>
                 <p>
                     <label className='font-bold'>HP:</label> {selectedPokemon.stats[0]}<br />
@@ -42,7 +42,6 @@ const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => select
                         x{effect} : {types.map((type) => {return <img className='w-10' key={type} src={pokemonTypes[type].image} loading="lazy"/>})}
                     </div>
                 })}
-                
             </div>
         </div>
     </div>

@@ -18,8 +18,8 @@ const PokemonCard = forwardRef(function PokemonCard({ pokemon }, ref) {
     };
 
     return (
-      <div id={pokemon.id} ref={ref} className='flex flex-col items-center w-48 h-56 border-2 rounded-xl' >
-        <div className='flex justify-between w-full mx-2'>
+      <div id={pokemon.id} ref={ref} className='flex flex-col gap-1 items-center w-52 h-60 border-2 rounded-xl px-3 py-1' >
+        <div className='flex justify-between w-full'>
             <span className='font-bold '>{pokemon.id}</span>
             <button onClick={() => handleAddToCompare(pokemon.id)}>Compare</button>
         </div>

@@ -5,21 +5,20 @@ import { current } from "@reduxjs/toolkit";
 
 export default function Compare() {
   const compareQueue = useSelector(({pokemon: {compareQueue}}) =>  compareQueue)
-  useEffect(() => {
-    console.log(compareQueue)
-  }, [])
+
   return (
-    <>
-      <h1>Compare</h1>
-      <CompareContainer
-        pokemon={compareQueue[0]}
-        isEmpty={compareQueue.length < 1}
-      />
-      <CompareContainer
-        pokemon={compareQueue[1]}
-        isEmpty={compareQueue.length < 2}
-      />
-    </>
+    <div >
+      <div className='flex justify-evenly items-center absolute inset-0 -z-10'>
+        <CompareContainer
+          pokemon={compareQueue[0]}
+          isEmpty={compareQueue.length < 1}
+        />
+        <CompareContainer
+          pokemon={compareQueue[1]}
+          isEmpty={compareQueue.length < 2}
+        />
+      </div>
+    </div>
     
   )
 }

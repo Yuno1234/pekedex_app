@@ -14,7 +14,8 @@ module.exports = {
     "./src/content/Pokemon.js",
     "./src/content/Search.js",
     "./src/App.js",
-    "./src/index.js"
+    "./src/index.js",
+    "./public/index.html"
   ],
   theme: {
     extend: {},
