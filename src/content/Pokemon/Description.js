@@ -6,7 +6,7 @@ export default function Description() {
 const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
 
   return (
-    <div className='flex text-lg font-medium w-screen items-center justify-center absolute inset-0 -z-10'>
+    <div className='flex text-lg font-medium w-screen items-center justify-center absolute inset-0 top-10 -z-10'>
         <div className='flex flex-col gap-5'>
             <div>
                 <h2 className='text-2xl font-bold'>#{selectedPokemon.id}</h2>

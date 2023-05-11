@@ -11,12 +11,14 @@ export default function CompareContainer({pokemon}) {
                 <h1 className='text-3xl font-extrabold'>{pokemon.name.toUpperCase()}</h1>
                 <div className='flex'>
                     <div className='w-1/2'>
-                        <p>
-                            types: {pokemon.types.map((type) => {
+                        <div className='flex flex-row gap-1'>
+                            {pokemon.types.map((type) => {
                                 return <img className='w-10' key={type} src={pokemonTypes[type].image} loading="lazy"/>
-                            })}<br/>
-                            height: {pokemon.height}<br/>
-                            weight: {pokemon.weight}
+                            })}
+                        </div>
+                        <p>
+                            <label className='font-bold'>Height:</label> {pokemon.height}<br/>
+                            <label className='font-bold'>Weight:</label> {pokemon.weight}
                         </p>
                     </div>
                     <div className='w-1/2'>
@@ -33,7 +35,7 @@ export default function CompareContainer({pokemon}) {
                 
             </div>
         ) : (
-            <h2>Select a Pokemon to Compare</h2>
+            <h2 className='text-2xl font-extrabold'>Select a Pokemon to Compare</h2>
         )} 
     </>
   )

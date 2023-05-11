@@ -25,20 +25,20 @@ export default function PokemonNav() {
       ];
 
   return (
-    <nav className='max-w-full text-xl font-bold'>
-        <ul className='flex justify-evenly'>
-            {routes.map((route) => (
-              <li
-                key={route.name}
-                className={`${
-                  currentPokemonTab === route.name ? "active" : ""
-                }`}
-                onClick={() => dispatch(setPokemonTab(route.name))}
-              >
-                {route.value}
-              </li>
-            ))}
-          </ul>
-    </nav>
+    
+    <ul className='flex justify-evenly max-w-full text-xl font-bold'>
+        {routes.map((route) => (
+          <li
+            key={route.name}
+            className={`${
+              currentPokemonTab === route.name ? "active" : ""
+            } cursor-pointer py-3`}
+            onClick={() => dispatch(setPokemonTab(route.name))}
+          >
+            {route.value}
+          </li>
+        ))}
+    </ul>
+
   )
 }

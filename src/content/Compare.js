@@ -8,7 +8,7 @@ export default function Compare() {
 
   return (
     <div >
-      <div className='flex justify-evenly items-center absolute inset-0 -z-10'>
+      <div className='flex justify-evenly items-center absolute inset-0 top-10 -z-10'>
         <CompareContainer
           pokemon={compareQueue[0]}
           isEmpty={compareQueue.length < 1}
