@@ -96,7 +96,7 @@ export default function Search() {
           
           <input
             type="text"
-            className='my-3 py-2 pr-20 pl-4 border-2 rounded-3xl fixed -top-1 right-2'
+            className=' py-2 pr-20 pl-4 border-2 rounded-3xl fixed top-1 right-5'
             onChange={(e) => handleChange(e.target.value)}
             placeholder="Search Pokemon"
           />

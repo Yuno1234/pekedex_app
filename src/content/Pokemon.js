@@ -150,9 +150,9 @@ export default function Pokemon() {
       {!isDataLoading && selectedPokemon ? (
         <>
           <div className='flex gap-3 justify-end'>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`) }}>Prev</button>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`) }}>Next</button>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${randomNum}`)}}>Random</button>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`); setIsDataLoading(true);}}>Prev</button>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`); setIsDataLoading(true);}}>Next</button>
+            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${randomNum}`); setIsDataLoading(true);}}>Random</button>
             <button className='border-2 rounded-md' onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
           </div>
           {currentPokemonTab === pokemonTabs.description && <Description />}

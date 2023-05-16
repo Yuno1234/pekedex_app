@@ -1,6 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { pokemonTypes } from '../../utils/pokemonTypes'
+import StatusChart from '../../components/StatusChart'
 
 export default function Description() {
 const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => selectedPokemon)
@@ -27,14 +28,15 @@ const selectedPokemon = useSelector(({ pokemon: { selectedPokemon } }) => select
         </div>
         <div className='flex flex-col gap-8 justify-center items'>
             <div>
-                <p>
+                {/* <p>
                     <label className='font-bold'>HP:</label> {selectedPokemon.stats[0]}<br />
                     <label className='font-bold'>AT:</label> {selectedPokemon.stats[1]}<br />
                     <label className='font-bold'>DF:</label> {selectedPokemon.stats[2]}<br />
                     <label className='font-bold'>SA:</label> {selectedPokemon.stats[3]}<br />
                     <label className='font-bold'>SD:</label> {selectedPokemon.stats[4]}<br />
                     <label className='font-bold'>SP:</label> {selectedPokemon.stats[5]}<br />
-                </p>
+                </p> */}
+                <StatusChart stats={selectedPokemon.stats} />
             </div>
             <div>
                 {Object.entries(selectedPokemon.effectiveness).map(([effect, types]) => {

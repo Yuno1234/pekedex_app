@@ -1,6 +1,7 @@
 import React from 'react'
 import Loader from './Loader'
 import { pokemonTypes } from '../utils/pokemonTypes';
+import StatusChart from './StatusChart'
 
 export default function CompareContainer({pokemon}) {
   return (
@@ -22,14 +23,15 @@ export default function CompareContainer({pokemon}) {
                         </p>
                     </div>
                     <div className='w-1/2'>
-                        <p>
+                        {/* <p>
                             HP: {pokemon.stats[0]}<br/>
                             AT: {pokemon.stats[1]}<br/>
                             DF: {pokemon.stats[2]}<br/>
                             SA: {pokemon.stats[3]}<br/>
                             SD: {pokemon.stats[4]}<br/>
                             SP: {pokemon.stats[5]}<br/>
-                        </p>    
+                        </p>     */}
+                        <StatusChart stats={pokemon.stats} />
                     </div>
                 </div>
                 
