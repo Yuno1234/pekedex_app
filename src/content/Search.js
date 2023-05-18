@@ -92,8 +92,7 @@ export default function Search() {
       {isLoading ? (
           <Loader />
       ) : (      
-        <div className='flex flex-col items-center max-w-full'>
-          
+        <div className='flex flex-col items-center max-w-full bg-slate-100'>
           <input
             type="text"
             className=' py-2 pr-20 pl-4 border-2 rounded-3xl fixed top-1 right-5'
@@ -101,7 +100,7 @@ export default function Search() {
             placeholder="Search Pokemon"
           />
           
-          <div className='flex flex-wrap justify-between gap-8 max-w-screen-2xl m-8 '>
+          <div className='flex flex-wrap justify-between gap-8 max-w-screen-2xl m-8'>
             <PokemonList pokemons={searchPokemon} ref={observerTarget} />
           </div>
         </div> 

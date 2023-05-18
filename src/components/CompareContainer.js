@@ -2,13 +2,17 @@ import React from 'react'
 import Loader from './Loader'
 import { pokemonTypes } from '../utils/pokemonTypes';
 import StatusChart from './StatusChart'
+import pokeicon from '../assets/pokeball-symbol.svg'
 
 export default function CompareContainer({pokemon}) {
   return (
     <>
         {pokemon ? (
-            <div className=''>
-                <img src={pokemon.sprite} alt="NO IMAGE" loading="lazy" height="500" />
+            <div>
+                <div className='flex justify-center items-center'>
+                    <img src={pokemon.sprite} alt="NO IMAGE" loading="lazy"  />
+                    <img className='absolute -z-10 w-[450px]' src={pokeicon} />
+                </div>
                 <h1 className='text-3xl font-extrabold'>{pokemon.name.toUpperCase()}</h1>
                 <div className='flex'>
                     <div className='w-1/2'>

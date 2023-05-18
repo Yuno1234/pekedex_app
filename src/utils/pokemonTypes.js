@@ -20,6 +20,7 @@ import fairy from "../assets/types/fairy.svg"
 export const pokemonTypes = {
     normal: {
         image: normal,
+        color: "#919aa2",
         weakness: {
             noEffect: ["ghost"],
             notEffective: [],
@@ -28,6 +29,7 @@ export const pokemonTypes = {
     },
     fire: {
         image: fire,
+        color: "#ff9d53",
         weakness: {
             noEffect: [],
             notEffective: ["fire", "grass", "ice", "bug", "steel", "fairy"],
@@ -36,6 +38,7 @@ export const pokemonTypes = {
     },
     water: {
         image: water,
+        color: "#3692dc",
         weakness: {
             noEffect: [],
             notEffective: ["fire", "water", "ice", "steel"],
@@ -44,6 +47,7 @@ export const pokemonTypes = {
     },
     electric: {
         image: electric,
+        color: "#fbd100",
         weakness: {
             noEffect: [],
             notEffective: ["electric", "flying", "steel"],
@@ -52,6 +56,7 @@ export const pokemonTypes = {
     },
     grass: {
         image: grass,
+        color: "#60ba53",
         weakness: {
             noEffect: [],
             notEffective: ["water", "electric", "grass", "ground"],
@@ -60,6 +65,7 @@ export const pokemonTypes = {
     },
     ice: {
         image: ice,
+        color: "#4cd1c0",
         weakness: {
             noEffect: [],
             notEffective: ["ice"],
@@ -68,6 +74,7 @@ export const pokemonTypes = {
     },
     fighting: {
         image: fighting,
+        color: "#e0306a",
         weakness: {
             noEffect: [],
             notEffective: ["bug", "rock", "dark"],
@@ -76,6 +83,7 @@ export const pokemonTypes = {
     },
     poison: {
         image: poison,
+        color: "#b567ce",
         weakness: {
             noEffect: [],
             notEffective: ["grass", "fighting", "poison", "bug", "fairy"],
@@ -84,6 +92,7 @@ export const pokemonTypes = {
     },
     ground: {
         image: ground,
+        color: "#e87236",
         weakness: {
             noEffect: ["electric"],
             notEffective: ["poison", "rock"],
@@ -92,6 +101,7 @@ export const pokemonTypes = {
     },
     flying: {
         image: flying,
+        color: "#8fa8dd",
         weakness: {
             noEffect: ["ground"],
             notEffective: ["grass", "fighting", "bug"],
@@ -100,6 +110,7 @@ export const pokemonTypes = {
     },
     psychic: {
         image: psychic,
+        color: "#ff6675",
         weakness: {
             noEffect: [],
             notEffective: ["fighting", "psychic"],
@@ -108,6 +119,7 @@ export const pokemonTypes = {
     },
     bug: {
         image: bug,
+        color: "#90c12d",
         weakness: {
             noEffect: [],
             notEffective: ["grass", "fighting", "ground"],
@@ -116,6 +128,7 @@ export const pokemonTypes = {
     },
     rock: {
         image: rock,
+        color: "#c8b686",
         weakness: {
             noEffect: [],
             notEffective: ["normal", "fire", "poison", "flying"],
@@ -124,6 +137,7 @@ export const pokemonTypes = {
     },
     ghost: {
         image: ghost,
+        color: "#5469ad",
         weakness: {
             noEffect: ["normal", "fighting"],
             notEffective: ["poison", "bug"],
@@ -132,6 +146,7 @@ export const pokemonTypes = {
     },
     dragon: {
         image: dragon,
+        color: "#096ac1",
         weakness: {
             noEffect: [],
             notEffective: ["fire", "water", "electric", "grass"],
@@ -140,6 +155,7 @@ export const pokemonTypes = {
     },
     dark: {
         image: dark,
+        color: "#5b5466",
         weakness: {
             noEffect: ["psychic"],
             notEffective: ["ghost", "dark"],
@@ -148,6 +164,7 @@ export const pokemonTypes = {
     },
     steel: {
         image: steel,
+        color: "#5a8ea2",
         weakness: {
             noEffect: ["poison"],
             notEffective: ["normal", "grass", "ice", "flying", "psychic", "bug", "rock", "dragon", "steel", "fairy"],
@@ -156,6 +173,7 @@ export const pokemonTypes = {
     },
     fairy: {
         image: fairy,
+        color: "#5a8ea2",
         weakness: {
             noEffect: ["dragon"],
             notEffective: ["fighting", "bug", "dark"],

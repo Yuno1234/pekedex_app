@@ -11,6 +11,10 @@ import Description from './Pokemon/Description';
 import Evolution from './Pokemon/Evolution';
 import CapableMoves from './Pokemon/CapableMoves';
 import { getEffectiveness } from '../utils/getEffectiveness';
+import { ReactComponent as Prev } from '../assets/arrow-left.svg'
+import { ReactComponent as Next } from '../assets/arrow-right.svg';
+import { ReactComponent as Compare } from '../assets/arrow-right-left.svg'
+import { ReactComponent as Random } from '../assets/arrow-shuffle.svg'
 
 export default function Pokemon() {
   const params = useParams();
@@ -78,17 +82,22 @@ export default function Pokemon() {
 
   const getMovesData = useCallback(
     async (url) => {
-      const { data } = await axios.get(url)
-      return {
-        id: data.id,
-        name: data.name,
-        accuracy: data.accuracy,
-        class: data.damage_class.name,
-        power: data.power,
-        pp: data.pp,
-        effect: data.effect_entries.length > 0 ? data.effect_entries[0].short_effect : '',
-        type: data.type.name,
+      try {
+        const { data } = await axios.get(url)
+        return {
+          id: data.id,
+          name: data.name,
+          accuracy: data.accuracy,
+          class: data.damage_class.name,
+          power: data.power,
+          pp: data.pp,
+          effect: data.effect_entries.length > 0 ? data.effect_entries[0].short_effect : '',
+          type: data.type.name,
+        }
+      } catch (err) {
+        console.log(err)
       }
+      
     },
     [selectedPokemon]
   )
@@ -101,6 +110,7 @@ export default function Pokemon() {
       const moves = await Promise.all(
         data.moves.map(({ move }) => getMovesData(move.url))
       );
+      
 
       const {
         data: {
@@ -142,18 +152,25 @@ export default function Pokemon() {
 
   useEffect(() => {
     setPokemonData()
-    console.log(selectedPokemon)
   }, [params.id, dispatch])
 
   return (
     <>
       {!isDataLoading && selectedPokemon ? (
         <>
-          <div className='flex gap-3 justify-end'>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`); setIsDataLoading(true);}}>Prev</button>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`); setIsDataLoading(true);}}>Next</button>
-            <button className='border-2 rounded-md' onClick={() => { navigate(`/pokemon/${randomNum}`); setIsDataLoading(true);}}>Random</button>
-            <button className='border-2 rounded-md' onClick={() => {handleAddToCompare(params.id)}}>Add to Compare</button>
+          <div className='flex gap-3 justify-end mx-10 my-5'>
+            <button className='border-2 rounded-full p-2 border-4 border-gray-400 hover:bg-gray-400 stroke-slate-400 hover:stroke-white' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`); setIsDataLoading(true);}}>
+              <Prev />
+            </button>
+            <button className='border-2 rounded-full p-2 border-4 border-gray-400 hover:bg-gray-400 stroke-slate-400 hover:stroke-white' onClick={() => { navigate(`/pokemon/${parseInt(params.id) + 1}`); setIsDataLoading(true);}}>
+              <Next />
+            </button>
+            <button className='border-2 rounded-full p-2 border-4 border-gray-400 hover:bg-gray-400 stroke-slate-400 hover:stroke-white' onClick={() => { navigate(`/pokemon/${randomNum}`); setIsDataLoading(true);}}>
+              <Random />
+            </button>
+            <button className='border-2 rounded-full p-2 border-4 border-gray-400 hover:bg-gray-400 stroke-slate-400 hover:stroke-white' onClick={() => {handleAddToCompare(params.id)}}>
+              <Compare />
+            </button>
           </div>
           {currentPokemonTab === pokemonTabs.description && <Description />}
           {currentPokemonTab === pokemonTabs.evolution && <Evolution />}
