@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import CompareContainer from '../components/CompareContainer'
 import { useSelector } from 'react-redux'
-import { current } from "@reduxjs/toolkit";
 
 export default function Compare() {
   const compareQueue = useSelector(({pokemon: {compareQueue}}) =>  compareQueue)

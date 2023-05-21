@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams, useNavigate } from "react-router-dom";
 import Loader from '../components/Loader';
 import { getPokemonData } from '../utils/getPokemonData';
-import { pokemonTypes } from '../utils/pokemonTypes';
 import axios from 'axios';
 import { addToCompare, setSelectedPokemon } from '../app/slices/PokemonSlice';
 import { pokemonTabs } from '../app/slices/AppSlice';
@@ -158,7 +157,7 @@ export default function Pokemon() {
     <>
       {!isDataLoading && selectedPokemon ? (
         <>
-          <div className='flex gap-3 justify-end mx-10 my-5'>
+          <div className='fixed right-0 flex gap-3 justify-end mx-10 my-5'>
             <button className='border-2 rounded-full p-2 border-4 border-gray-400 hover:bg-gray-400 stroke-slate-400 hover:stroke-white' onClick={() => { navigate(`/pokemon/${parseInt(params.id) - 1}`); setIsDataLoading(true);}}>
               <Prev />
             </button>

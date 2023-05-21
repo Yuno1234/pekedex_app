@@ -173,7 +173,7 @@ export const pokemonTypes = {
     },
     fairy: {
         image: fairy,
-        color: "#5a8ea2",
+        color: "#fb89eb",
         weakness: {
             noEffect: ["dragon"],
             notEffective: ["fighting", "bug", "dark"],

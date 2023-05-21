@@ -38,7 +38,7 @@ module.exports = {
     'from-[#096ac1]',
     'from-[#5b5466]',
     'from-[#5a8ea2]',
-    'from-[#5a8ea2]',
+    'from-[#fb89eb]',
   ],
   plugins: [],
 }
